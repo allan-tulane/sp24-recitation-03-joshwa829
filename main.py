@@ -9,7 +9,14 @@ class BinaryNumber:
     def __init__(self, n):
         self.decimal_val = n               
         self.binary_vec = list('{0:b}'.format(n)) 
-        
+    def __add__(self, other):
+      if isinstance(other, BinaryNumber):
+          # Convert binary strings to integers, add them, and convert back to binary
+          sum_val = self.decimal_val + other.decimal_val
+          return BinaryNumber(sum_val)
+      else:
+          return NotImplemented
+  
     def __repr__(self):
         return('decimal=%d binary=%s' % (self.decimal_val, ''.join(self.binary_vec)))
     
@@ -45,13 +52,39 @@ def pad(x,y):
     return x,y
 
 def quadratic_multiply(x, y):
-    # this just converts the result from a BinaryNumber to a regular int
     return _quadratic_multiply(x,y).decimal_val
 
 def _quadratic_multiply(x, y):
-    ### TODO
-    pass
-    ###
+    xvec = x.binary_vec
+    yvec = y.binary_vec
+
+    # Pad xvec and yvec with leading zeros
+    max_len = max(len(xvec), len(yvec))
+    xvec = ['0'] * (max_len - len(xvec)) + xvec
+    yvec = ['0'] * (max_len - len(yvec)) + yvec
+
+    # Base case
+    if x.decimal_val <= 1 and y.decimal_val <= 1:
+        return x * y
+
+    # Split into two halves
+    x_left, x_right = split_number(xvec)
+    y_left, y_right = split_number(yvec)
+
+    # Recursively computing the four multiplications
+    x_left_y_left = _quadratic_multiply(x_left, y_left)
+    x_left_y_right = _quadratic_multiply(x_left, y_right)
+    x_right_y_left = _quadratic_multiply(x_right, y_left)
+    x_right_y_right = _quadratic_multiply(x_right, y_right)
+
+    # Combine the results using the quadratic multiplication formula
+    part1 = bit_shift(x_left_y_left, len(xvec))
+    part2 = bit_shift(x_left_y_right + x_right_y_left, len(xvec) // 2)
+    part3 = x_right_y_right
+
+    # Sum the three parts to get the final result
+    return part1 + part2 + part3
+
 
 
     
@@ -59,9 +92,9 @@ def _quadratic_multiply(x, y):
 def test_quadratic_multiply(x, y, f):
     start = time.time()
     # multiply two numbers x, y using function f
-    
-    return (time.time() - start)*1000
-
+    result = f(x, y)
+    duration_ms = (time.time() - start) * 1000
+    return result, duration_ms
 
     
     

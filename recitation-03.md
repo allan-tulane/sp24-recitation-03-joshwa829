@@ -1,6 +1,6 @@
 # CMPS 2200  Recitation 03
 
-**Name (Team Member 1):**_________________________  
+**Name (Team Member 1):**_____Joshua Allison ____________________  
 **Name (Team Member 2):**_________________________
 
 
@@ -40,14 +40,15 @@ def bit_shift(number, n):
     return binary2int(number.binary_vec + ['0'] * n)
 ```
 
-The implementation of `_quadratic_multiply` will do the following:
+The implementation of `_quadratic_multiply` will do the following: 
 
 1. Obtain `xvec` and `yvec`, the `binary_vec` values of `x` and `y`
-2. Pad `xvec` and `yvec` so they are the same length by adding leading 0s if necessary (e.g., if `xvec`=1 and `yvec`=10, then change `xvec` to 01. This will ensure our splitting and recombining will work properly.
-3. Base case: If both $x$ and $y$ are $\le 1$, then just return their product.
-4. Otherwise, split `xvec` and `yvec` into two halves each. Call them `x_left` `x_right` `y_left` `y_right`.
-5. Now you can apply the formula above directly. Anywhere there is a multiply, call `_quadratic_multiply`
-6. Use `bit_shift` to do the $2^n$ and $2^{n/2}$ multiplications.
-7. Finally, you have to do three sums to get the final answer. For this assignment, you can just use the `decimal_val`s of each number to do this, though keep in mind that binary addition is a $O(n)$ operation, assuming $n$ bits per term.
-8. Please implement function test_quadratic_multiply in `main.py` to obtain the running time.
-9. Please input more test cases in `test_main.py`
+
+3. Pad `xvec` and `yvec` so they are the same length by adding leading 0s if necessary (e.g., if `xvec`=1 and `yvec`=10, then change `xvec` to 01. This will ensure our splitting and recombining will work properly.
+4. Base case: If both $x$ and $y$ are $\le 1$, then just return their product.
+5. Otherwise, split `xvec` and `yvec` into two halves each. Call them `x_left` `x_right` `y_left` `y_right`.
+6. Now you can apply the formula above directly. Anywhere there is a multiply, call `_quadratic_multiply`
+7. Use `bit_shift` to do the $2^n$ and $2^{n/2}$ multiplications.
+8. Finally, you have to do three sums to get the final answer. For this assignment, you can just use the `decimal_val`s of each number to do this, though keep in mind that binary addition is a $O(n)$ operation, assuming $n$ bits per term.
+9. Please implement function test_quadratic_multiply in `main.py` to obtain the running time.
+10. Please input more test cases in `test_main.py`
